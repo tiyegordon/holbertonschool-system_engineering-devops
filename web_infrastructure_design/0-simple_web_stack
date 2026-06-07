@@ -1,0 +1,31 @@
+# Simple Web Stack
+
+## Infrastructure Design
+- 1 server (IP: 8.8.8.8)
+- 1 domain: foobar.com with www A record pointing to 8.8.8.8
+- 1 web server: Nginx
+- 1 application server
+- 1 application codebase
+- 1 database: MySQL
+
+## Explanations
+**Server:** A physical or virtual machine that hosts services and responds to client requests.
+
+**Domain name:** Provides a human-readable address instead of an IP. DNS maps foobar.com to 8.8.8.8.
+
+**DNS record type:** www is an A record pointing to 8.8.8.8.
+
+**Web server (Nginx):** Handles HTTP/HTTPS requests, serves static files, forwards dynamic requests to the application server.
+
+**Application server:** Executes application code, processes business logic, generates dynamic content.
+
+**Database (MySQL):** Stores and retrieves persistent data for the application.
+
+**Communication protocol:** HTTP/HTTPS over TCP/IP between the user browser and the server.
+
+## Issues
+**SPOF:** If the one server goes down, the entire website is unavailable.
+
+**Maintenance downtime:** Deploying new code requires restarting Nginx, causing temporary downtime.
+
+**Scalability:** One server cannot handle large traffic spikes.

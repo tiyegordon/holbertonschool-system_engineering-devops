@@ -1,0 +1,29 @@
+# Distributed Web Infrastructure
+
+## Infrastructure Design
+- 1 load balancer: HAproxy
+- 2 servers, each containing:
+  - 1 web server: Nginx
+  - 1 application server
+  - 1 application codebase
+  - 1 database: MySQL (Primary-Replica)
+
+## Why Each Element Was Added
+**2 servers:** Eliminates single point of failure, allows traffic distribution and redundancy.
+**HAproxy:** Distributes incoming traffic across both servers to improve performance and availability.
+**Primary-Replica database:** Provides data redundancy and read scalability.
+
+## Load Balancer
+**Algorithm:** Round Robin - each request is sent to the next server in rotation.
+**Setup:** Active-Active - both servers handle traffic simultaneously.
+- Active-Active: all servers are live and serving requests at the same time.
+- Active-Passive: one server is live, the other is on standby and only activates if the primary fails.
+
+## Primary-Replica Database
+The Primary node handles all write operations. Changes are replicated to the Replica node.
+The Replica node handles read operations, reducing load on the Primary.
+
+## Issues
+**SPOF:** The HAproxy load balancer itself is a single point of failure.
+**Security:** No firewall, no HTTPS - traffic is unencrypted and servers are exposed.
+**No monitoring:** No visibility into server health, traffic, or errors.

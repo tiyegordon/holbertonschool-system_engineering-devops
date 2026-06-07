@@ -1,0 +1,24 @@
+# Scale Up Infrastructure
+
+## Infrastructure Design
+- 2 load balancers: HAproxy configured as a cluster
+- 1 server: Nginx web server
+- 1 server: Application server
+- 1 server: MySQL database
+
+## Why Each Element Was Added
+
+**Additional server:** Splitting components onto dedicated servers means each one
+can be scaled, maintained, and optimized independently.
+
+**HAproxy cluster:** A single load balancer is a SPOF. Clustering two HAproxy
+instances means if one fails, the other takes over automatically.
+
+**Dedicated web server:** Handles only HTTP/HTTPS requests and static files.
+Easier to scale horizontally by adding more web servers.
+
+**Dedicated application server:** Runs only application logic. Crashes don't
+affect static file serving and the layer can be scaled independently.
+
+**Dedicated database server:** Hosts only MySQL. Improves security, allows
+dedicated hardware tuning, and makes backups and replication easier.

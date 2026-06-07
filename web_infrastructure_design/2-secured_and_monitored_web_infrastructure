@@ -1,0 +1,34 @@
+# Secured and Monitored Web Infrastructure
+
+## Infrastructure Design
+- 1 load balancer: HAproxy with SSL certificate
+- 3 firewalls (one per server)
+- 2 servers, each containing:
+  - 1 web server: Nginx
+  - 1 application server
+  - 1 application codebase
+  - 1 database: MySQL (Primary-Replica)
+  - 1 monitoring client
+
+## Why Each Element Was Added
+**3 firewalls:** Filter malicious traffic and block unauthorized access.
+**SSL certificate:** Encrypts traffic between users and the website over HTTPS.
+**3 monitoring clients:** Collect metrics and logs from each server.
+
+## Explanations
+**Firewalls:** Control incoming and outgoing traffic based on security rules.
+
+**HTTPS:** Encrypts data to protect sensitive information from being intercepted.
+
+**Monitoring:** Tracks server health, performance, and errors. Alerts teams when issues arise.
+
+**How monitoring collects data:** Agents run on each server collecting CPU, memory, disk metrics and logs, sending them to a central platform like Sumo Logic.
+
+**Monitoring QPS:** Configure the monitoring client to track Nginx access logs and set alerts for unusual request rates.
+
+## Issues
+**SSL termination at load balancer:** Traffic between load balancer and backend servers is unencrypted.
+
+**Single MySQL write node:** If the Primary goes down, no writes can be processed.
+
+**Identical server components:** Wastes resources and makes independent scaling difficult.
